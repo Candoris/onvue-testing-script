@@ -57,7 +57,7 @@ Function RestartService {
     Get-Service -Name "LMIGuardian*" | Start-Service -Verbose 
 
     Get-Service -Name "zEvt*" | Set-Service -StartupType Automatic -Verbose
-        #--!!--Don't start zEvt service automatically, it doesn't appear that it is supposed to be always running
+ #--!!--Don't start zEvt service automatically, it doesn't appear that it is supposed to be always running
   # Get-Service -Name "zEvt*" | Start-Service -Verbose 
 
 
@@ -66,27 +66,24 @@ Function Invoke-InputBox {
 
     [cmdletbinding(DefaultParameterSetName="plain")]
     [OutputType([system.string],ParameterSetName='plain')]
-   # [OutputType([system.security.securestring],ParameterSetName='secure')]
+   
 
     Param(
-     #   [Parameter(ParameterSetName="secure")]
-        [Parameter(HelpMessage = "Please enter a timeframe",
-        ParameterSetName="plain")]        
+     
+            [Parameter(HelpMessage = "Please enter a timeframe",
+            ParameterSetName="plain")]        
 
-        [ValidateNotNullorEmpty()]
-        [ValidateScript({$_.length -le 25})]
-        [string]$Title = "GOOD LUCK ON YOUR EXAM!!!",
+            [ValidateNotNullorEmpty()]
+            [ValidateScript({$_.length -le 25})]
+            [string]$Title = "GOOD LUCK ON YOUR EXAM!!!",
 
-        [Parameter(ParameterSetName="secure")]        
-        [Parameter(HelpMessage = "Enter a time",ParameterSetName="plain")]
-        [ValidateNotNullorEmpty()]
-        [ValidateScript({$_.length -le 50})]
-        [string]$Prompt = "Please enter a timeframe (in Minutes):"
-        
-    #    [Parameter(HelpMessage = "Use to mask the entry and return a secure string.",
-    #   ParameterSetName="secure")]
-    #    [switch]$AsSecureString
-    )
+            [Parameter(ParameterSetName="secure")]        
+            [Parameter(HelpMessage = "Enter a time",ParameterSetName="plain")]
+            [ValidateNotNullorEmpty()]
+            [ValidateScript({$_.length -le 50})]
+            [string]$Prompt = "Please enter a timeframe (in Minutes):"
+            
+          )
 
     if ($PSEdition -eq 'Core') {
         Write-Warning "Sorry. This script will not run on PowerShell Core."
@@ -114,12 +111,9 @@ Function Invoke-InputBox {
     $label.HorizontalAlignment = "left"
     $stack.AddChild($label)
 
-  #  if ($AsSecureString) {
-  #      $inputbox = New-Object System.Windows.Controls.PasswordBox
-  #  }
- #   else {
-        $inputbox = New-Object System.Windows.Controls.TextBox
- #   }
+
+    $inputbox = New-Object System.Windows.Controls.TextBox
+ 
 
     $inputbox.Width = 300
     $inputbox.HorizontalAlignment = "center"
@@ -139,14 +133,11 @@ Function Invoke-InputBox {
 
     #add an event handler
     $btn.Add_click( {
-        #    if ($AsSecureString) {
-         #       $script:TimeInput = $inputbox.SecurePassword
-        #    }
-        #    else {
-                $script:TimeInput = $inputbox.text
-        #    }
+
+            $script:TimeInput = $inputbox.text
             $form.Close()
-        })
+
+         })
 
     $stack.AddChild($btn)
     $space2 = new-object System.Windows.Controls.Label
@@ -165,6 +156,7 @@ Function Invoke-InputBox {
             
             $form.Close()
             exit
+            
         })
 
     $stack.AddChild($btn2)
